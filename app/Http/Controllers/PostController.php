@@ -48,4 +48,14 @@ class PostController extends Controller
             return response()->json($post);
         }
     }
+
+
+    public function editPost(Request $request){
+        $post = Post::find($request->id);
+        $post->title = $request->title;
+        $post->body = $request->body;
+        $post->save();
+
+        return response()->json($post);
+    }
 }

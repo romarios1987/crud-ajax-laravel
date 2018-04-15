@@ -87,6 +87,54 @@
     });
 
 
+    // Show Post
+    $(document).on('click', '.show-modal', function () {
+        $('#show').modal('show');
+        $('.modal-title').text('show-post');
+    });
+
+
+    // Edit Post
+    $(document).on('click', '.edit-modal', function () {
+        $('#footer_action_button').text(" Update Post");
+        $('#footer_action_button').addClass('glyphicon-check');
+        $('#footer_action_button').removeClass('glyphicon-trash');
+        $('.actionBtn').addClass('btn-success');
+        $('.actionBtn').removeClass('btn-danger');
+        $('.actionBtn').addClass('edit');
+        $('.modal-title').text('Post Edit');
+        $('.deleteContent').hide();
+        $('.form-horizontal').show();
+        $('#fid').val($(this).data('id'));
+        $('#t').val($(this).data('title'));
+        $('#b').val($(this).data('body'));
+        $('#myModal').modal('show');
+    });
+
+    $('.modal-footer').on('click', '.edit', function () {
+        $.ajax({
+            type: 'POST',
+            url: 'editPost',
+            data: {
+                '_token': $('input[name=_token]').val(),
+                'id': $("#fid").val(),
+                'title': $('#t').val(),
+                'body': $('#b').val()
+            },
+            success: function (data) {
+                $('.post' + data.id).replaceWith(" " +
+                    "<tr class='post" + data.id + "'>" +
+                    "<td>" + data.id + "</td>" +
+                    "<td>" + data.title + "</td>" +
+                    "<td>" + data.body + "</td>" +
+                    "<td>" + data.created_at + "</td>" +
+                    "<td><button class='show-modal btn btn-info btn-sm' data-id='" + data.id + "' data-title='" + data.title + "' data-body='" + data.body + "'><span class='fa fa-eye'></span></button> <button class='edit-modal btn btn-warning btn-sm' data-id='" + data.id + "' data-title='" + data.title + "' data-body='" + data.body + "'><span class='glyphicon glyphicon-pencil'></span></button> <button class='delete-modal btn btn-danger btn-sm' data-id='" + data.id + "' data-title='" + data.title + "' data-body='" + data.body + "'><span class='glyphicon glyphicon-trash'></span></button></td>" +
+                    "</tr>");
+            }
+        });
+    });
+
+
 </script>
 </body>
 </html>
