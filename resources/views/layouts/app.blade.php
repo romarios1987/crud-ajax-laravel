@@ -22,7 +22,7 @@
 <nav class="navbar navbar-default navbar-static-top">
     <div class="container">
         <div class="navbar-header">
-            <a class="navbar-brand" href="{{route('posts')}}">CRUD</a>
+            <a class="navbar-brand" href="{{route('posts.index')}}">CRUD</a>
         </div>
     </div>
 </nav>
@@ -48,6 +48,45 @@
         $('.form-horizontal').show();
         $('.modal-title').text('Add Post');
     });
+
+    // function Add(Save)
+    $('#add').click(function () {
+        $.ajax({
+            type: 'post',
+            url: 'addPost',
+            data: {
+                '_token': $('input[name=_token]').val(),
+                'title': $('input[name=title]').val(),
+                'body': $('input[name=body]').val(),
+            },
+
+            success: function (data) {
+                if (data.errors) {
+                    $('.error').removeClass('hidden');
+                    $('.error').text(data.errors.title);
+                    $('.error').text(data.errors.body);
+                } else {
+
+                    $('.error').remove();
+                    $('#table').append("<tr class='post" + data.id + "'>" +
+                        "<td>" + data.id + "</td>" +
+                        "<td>" + data.title + "</td>" +
+                        "<td>" + data.body + "</td>" +
+                        "<td>" + data.created_at + "</td>" +
+                        "<td>" +
+                        "<button class='show-modal btn btn-info btn-sm' data-id='" + data.id + "' data-title='" + data.title + "' data-body='" + data.body + "'><span class='glyphicon glyphicon-eye-open'></span></button> " +
+                        "<button class='edit-modal btn btn-warning btn-sm' data-id='" + data.id + "' data-title='" + data.title + "' data-body='" + data.body + "'><span class='glyphicon glyphicon-pencil'></span></button>" +
+                        "<button class='delete-modal btn btn-danger btn-sm' data-id='" + data.id + "' data-title='" + data.title + "' data-body='" + data.body + "'><span class='glyphicon glyphicon-trash'></span></button>" +
+                        "</td>" +
+                        "</tr>");
+                }
+            }
+        });
+        $('#title').val('');
+        $('#body').val('');
+    });
+
+
 </script>
 </body>
 </html>

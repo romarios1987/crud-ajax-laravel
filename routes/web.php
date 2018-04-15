@@ -16,4 +16,9 @@ Route::get('/', function () {
 });
 
 
-Route::get('/posts', 'PostController@index')->name('posts');
+
+Route::group(['middleware' => ['web']], function (){
+   Route::resource('posts', 'PostController');
+   Route::post('addPost', 'PostController@addPost');
+});
+

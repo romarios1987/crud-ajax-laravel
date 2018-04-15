@@ -24,7 +24,7 @@
                 <?php $n = 1; ?>
                 @foreach($posts as $post)
                     <tr class="post{{$post->id}}">
-                        <td>{{$no++}}</td>
+                        <td>{{$n++}}</td>
                         <td>{{$post->title}}</td>
                         <td>{{$post->body}}</td>
                         <td>{{$post->created_at}}</td>
