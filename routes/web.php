@@ -16,10 +16,10 @@ Route::get('/', function () {
 });
 
 
-
-Route::group(['middleware' => ['web']], function (){
-   Route::resource('posts', 'PostController');
-   Route::post('addPost', 'PostController@addPost');
-    Route::POST('editPost','PostController@editPost');
+Route::group(['middleware' => ['web']], function () {
+    Route::resource('posts', 'PostController');
+    Route::post('addPost', 'PostController@addPost');
+    Route::post('editPost', 'PostController@editPost');
+    Route::post('deletePost', 'PostController@deletePost');
 });
 

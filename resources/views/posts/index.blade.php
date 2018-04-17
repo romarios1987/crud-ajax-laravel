@@ -14,10 +14,11 @@
                     <th>Title</th>
                     <th>Body</th>
                     <th>Create At</th>
+                    <th>Update At</th>
                     <th class="text-center" width="150">
-                        <a href="#" class="create-modal btn btn-success btn-sm">
+                        <button class="create-modal btn btn-success btn-sm">
                             <i class="glyphicon glyphicon-plus"></i>
-                        </a>
+                        </button>
                     </th>
                 </tr>
                 {{csrf_field()}}
@@ -28,35 +29,38 @@
                         <td>{{$post->title}}</td>
                         <td>{{$post->body}}</td>
                         <td>{{$post->created_at}}</td>
+                        <td>{{$post->updated_at}}</td>
                         <td>
-                            <a href="#" class="show-modal btn btn-info btn-sm" data-id="{{$post->id}}"
-                               data-title="{{$post->title}}" data-body="{{$post->body}}">
+                            <button class="show-modal btn btn-info btn-sm" data-id="{{$post->id}}"
+                                    data-title="{{$post->title}}" data-body="{{$post->body}}">
                                 <i class="glyphicon glyphicon-eye-open"></i>
-                            </a>
-                            <a href="#" class="edit-modal btn btn-warning btn-sm" data-id="{{$post->id}}"
+                            </button>
+                            <button  class="edit-modal btn btn-warning btn-sm" data-id="{{$post->id}}"
                                data-title="{{$post->title}}" data-body="{{$post->body}}">
                                 <i class="glyphicon glyphicon-pencil"></i>
-                            </a>
-                            <a href="#" class="delete-modal btn btn-danger btn-sm" data-id="{{$post->id}}"
+                            </button>
+                            <button class="delete-modal btn btn-danger btn-sm" data-id="{{$post->id}}"
                                data-title="{{$post->title}}" data-body="{{$post->body}}">
                                 <i class="glyphicon glyphicon-trash"></i>
-                            </a>
+                            </button>
                         </td>
                     </tr>
                 @endforeach
             </table>
         </div>
+        {{$posts->links()}}
     </div>
 
     {{-- Form Create Post--}}
-
     <div class="modal fade" id="create" role="dialog">
         <div class="modal-dialog">
             <div class="modal-content">
+
                 <div class="modal-header">
                     <button class="close" type="button" data-dismiss="modal">&times;</button>
                     <h4 class="modal-title"></h4>
                 </div>
+
                 <div class="modal-body">
                     <form class="form-horizontal" role="form">
                         <div class="form-group row add">
@@ -64,7 +68,7 @@
                             <div class="col-sm-10">
                                 <input type="text" name="title" class="form-control" id="title"
                                        placeholder="Your Title Here" required>
-                                <p class="error text-center alert alert-danger hidden"></p>
+                                <div class="error text-danger"></div>
                             </div>
                         </div>
 
@@ -73,56 +77,36 @@
                             <div class="col-sm-10">
                                 <input type="text" name="body" class="form-control" id="body"
                                        placeholder="Your Body Here" required>
-                                <p class="error text-center alert alert-danger hidden"></p>
+                                <div class="error text-danger"></div>
                             </div>
                         </div>
                     </form>
                 </div>
+
                 <div class="modal-footer">
-                    <button class="btn btn-warning" type="submit" name="button" id="add">
-                        <span class="glyphicon glyphicon-plus"></span>Save Post
+                    <button class="btn btn-primary" type="submit" name="button" id="add">
+                        <span class="glyphicon glyphicon-plus"></span> Save Post
                     </button>
-
-
-                    <button class="btn btn-warning" type="button" name="button" data-dismiss="modal">
-                        <span class="glyphicon glyphicon-remove"></span>Close
+                    <button class="btn btn-dark" type="button" name="button" data-dismiss="modal">
+                        <span class="glyphicon glyphicon-remove"></span> Close
                     </button>
                 </div>
+
             </div>
         </div>
     </div>
 
-
-    {{--Form Show Post--}}
-    <div id="show" class="modal fade" role="dialog">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title"></h4>
-                </div>
-                <div class="modal-body">
-                    <p>Title :{{$post->title}}</p>
-                    <p>Body: {{$post->body}}</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-warning" data-dismiss="modal">
-                        <span class="glyphicon glyphicon-remove"></span>Close
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
 
     {{--Form Edit and Delete--}}
-
     <div id="myModal" class="modal fade" role="dialog">
         <div class="modal-dialog">
             <div class="modal-content">
+
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                     <h4 class="modal-title"></h4>
                 </div>
+
                 <div class="modal-body">
                     <form class="form-horizontal" role="form">
                         <div class="form-group">
@@ -140,29 +124,62 @@
                         <div class="form-group">
                             <label class="control-label col-sm-2" for="body">Body</label>
                             <div class="col-sm-10">
-                                <textarea type="name" class="form-control" id="b"></textarea>
+                                <textarea class="form-control" name="body" id="b" cols="30" rows="5"></textarea>
                             </div>
                         </div>
                     </form>
 
                     {{--Form Delete POST--}}
                     <div class="delete-content">
-                        Are You sure want to delete <span class="title"></span> ?
+                        Are You sure want to delete post - <span class="title text-uppercase"></span> ?
                         <span class="hidden id"></span>
                     </div>
 
-
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn actionBtn" data-dismiss="modal">
+                    <button type="button" class="btn actionBtn btn-success" data-dismiss="modal">
                         <span id="footer_action_button" class="glyphicon"></span>
                     </button>
 
-                    <button type="button" class="btn btn-warning" data-dismiss="modal">
-                        <span class="glyphicon glyphicon-remove"></span>Close
+                    <button type="button" class="btn btn-dark" data-dismiss="modal">
+                        <span class="glyphicon glyphicon-remove"></span> Close
                     </button>
                 </div>
 
+            </div>
+        </div>
+    </div>
+
+
+    {{--Modal Form Show Post--}}
+    <div id="show" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title"></h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="">ID :</label>
+                        <b id="i"/>
+                    </div>
+                    <hr>
+                    <div class="form-group">
+                        <label for="">Title :</label>
+                        <b id="ti"/>
+                    </div>
+                    <hr>
+                    <div class="form-group">
+                        <label for="">Body :</label>
+                        <b id="by"/>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-dark" data-dismiss="modal">
+                        <span class="glyphicon glyphicon-remove"></span> Close
+                    </button>
+                </div>
             </div>
         </div>
     </div>

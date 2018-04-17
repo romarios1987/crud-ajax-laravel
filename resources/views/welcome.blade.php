@@ -48,6 +48,11 @@
             .title {
                 font-size: 84px;
             }
+            .links a.active{
+                color: darkred;
+                font-weight: bold;
+                text-decoration: underline;
+            }
 
             .links > a {
                 color: #636b6f;
@@ -86,6 +91,7 @@
                     <a href="https://laravel.com/docs">Documentation</a>
                     <a href="https://laracasts.com">Laracasts</a>
                     <a href="https://laravel-news.com">News</a>
+                    <a class="active" href="{{route('posts.index')}}">Posts</a>
                     <a href="https://forge.laravel.com">Forge</a>
                     <a href="https://github.com/laravel/laravel">GitHub</a>
                 </div>

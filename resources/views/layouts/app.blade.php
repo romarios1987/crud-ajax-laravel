@@ -41,15 +41,13 @@
 
 
 <script>
-    {{-- Ajax Form Add--}}
 
+    //--------------------------- form Add function ---------------------//
     $(document).on('click', '.create-modal', function () {
         $('#create').modal('show');
         $('.form-horizontal').show();
         $('.modal-title').text('Add Post');
     });
-
-    // function Add(Save)
     $('#add').click(function () {
         $.ajax({
             type: 'post',
@@ -73,6 +71,7 @@
                         "<td>" + data.title + "</td>" +
                         "<td>" + data.body + "</td>" +
                         "<td>" + data.created_at + "</td>" +
+                        "<td>" + data.updated_at + "</td>" +
                         "<td>" +
                         "<button class='show-modal btn btn-info btn-sm' data-id='" + data.id + "' data-title='" + data.title + "' data-body='" + data.body + "'><span class='glyphicon glyphicon-eye-open'></span></button> " +
                         "<button class='edit-modal btn btn-warning btn-sm' data-id='" + data.id + "' data-title='" + data.title + "' data-body='" + data.body + "'><span class='glyphicon glyphicon-pencil'></span></button>" +
@@ -82,19 +81,14 @@
                 }
             }
         });
+
         $('#title').val('');
         $('#body').val('');
+        $('#create').modal('hide');
     });
 
 
-    // Show Post
-    $(document).on('click', '.show-modal', function () {
-        $('#show').modal('show');
-        $('.modal-title').text('show-post');
-    });
-
-
-    // Edit Post
+    //--------------------------- form Edit function ---------------------//
     $(document).on('click', '.edit-modal', function () {
         $('#footer_action_button').text(" Update Post");
         $('#footer_action_button').addClass('glyphicon-check');
@@ -103,7 +97,7 @@
         $('.actionBtn').removeClass('btn-danger');
         $('.actionBtn').addClass('edit');
         $('.modal-title').text('Post Edit');
-        $('.deleteContent').hide();
+        $('.delete-content').hide();
         $('.form-horizontal').show();
         $('#fid').val($(this).data('id'));
         $('#t').val($(this).data('title'));
@@ -128,12 +122,52 @@
                     "<td>" + data.title + "</td>" +
                     "<td>" + data.body + "</td>" +
                     "<td>" + data.created_at + "</td>" +
-                    "<td><button class='show-modal btn btn-info btn-sm' data-id='" + data.id + "' data-title='" + data.title + "' data-body='" + data.body + "'><span class='fa fa-eye'></span></button> <button class='edit-modal btn btn-warning btn-sm' data-id='" + data.id + "' data-title='" + data.title + "' data-body='" + data.body + "'><span class='glyphicon glyphicon-pencil'></span></button> <button class='delete-modal btn btn-danger btn-sm' data-id='" + data.id + "' data-title='" + data.title + "' data-body='" + data.body + "'><span class='glyphicon glyphicon-trash'></span></button></td>" +
+                    "<td>" + data.updated_at + "</td>" +
+                    "<td><button class='show-modal btn btn-info btn-sm' data-id='" + data.id + "' data-title='" + data.title + "' data-body='" + data.body + "'><span class='glyphicon glyphicon-eye-open'></span></button> <button class='edit-modal btn btn-warning btn-sm' data-id='" + data.id + "' data-title='" + data.title + "' data-body='" + data.body + "'><span class='glyphicon glyphicon-pencil'></span></button> <button class='delete-modal btn btn-danger btn-sm' data-id='" + data.id + "' data-title='" + data.title + "' data-body='" + data.body + "'><span class='glyphicon glyphicon-trash'></span></button></td>" +
                     "</tr>");
             }
         });
     });
 
+
+    //--------------------------- form Delete function ---------------------//
+    $(document).on('click', '.delete-modal', function() {
+        $('#footer_action_button').text(" Delete");
+        $('#footer_action_button').removeClass('glyphicon-check');
+        $('#footer_action_button').addClass('glyphicon-trash');
+        $('.actionBtn').removeClass('btn-success');
+        $('.actionBtn').addClass('btn-danger');
+        $('.actionBtn').addClass('delete');
+        $('.modal-title').text('Delete Post');
+        $('.id').text($(this).data('id'));
+        $('.delete-content').show();
+        $('.form-horizontal').hide();
+        $('.title').html($(this).data('title'));
+        $('#myModal').modal('show');
+    });
+
+    $('.modal-footer').on('click', '.delete', function(){
+        $.ajax({
+            type: 'POST',
+            url: 'deletePost',
+            data: {
+                '_token': $('input[name=_token]').val(),
+                'id': $('.id').text()
+            },
+            success: function(data){
+                $('.post' + $('.id').text()).remove();
+            }
+        });
+    });
+
+    // Show function
+    $(document).on('click', '.show-modal', function() {
+        $('#show').modal('show');
+        $('#i').text($(this).data('id'));
+        $('#ti').text($(this).data('title'));
+        $('#by').text($(this).data('body'));
+        $('.modal-title').text('Show Post');
+    });
 
 </script>
 </body>
